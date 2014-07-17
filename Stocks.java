@@ -20,7 +20,6 @@ public class Stocks {
 		int refresh = 0;
 		String[] quotes = new String[numQuotes];
 		String[] latestPrice = new String[numQuotes];
-		System.out.println("test");
 		
 		while ((hour <= 16 && hour>=9) ){
 			
@@ -37,6 +36,7 @@ public class Stocks {
 				System.out.println("The Stock Market is currently closed. Please come back between 9:30 AM and 4:00 PM");
 				return;
 			}
+			
 			
 			
 			if (numQuotes == 0) {
@@ -95,26 +95,31 @@ public class Stocks {
 							System.out.println(ticker + ": " + stockPrice);
 						}
 
-						else if (latestPrice[i] != stockPrice) {
-
+						else{
+						
 							double latest = Double.parseDouble(stockPrice);
 							double previous = Double.parseDouble(latestPrice[i]);
-
+							
+							if (latest == previous)
+								System.out.println(ticker + " remains at: " + latestPrice[i]);
+							
 							if (latest > previous)
-								System.out.println(ticker + " went up to: "+ latest);
-
-							else if(latest < previous){
-								System.out.println(ticker + " went down to: "+ latest);
-							}
+								System.out.println(ticker + " went up to: " + latest);
+							
+							if (latest < previous)
+								System.out.println(ticker + " went down to: " + latest);
+							
+							
 						}
-
 						
 					}
 
 				}
 			}
 			try {
-				System.out.println("Waiting...");
+				System.out.println("");
+				System.out.println("Refreshing...");
+				System.out.println("");
 				Thread.sleep(refresh*1000);
 			}
 

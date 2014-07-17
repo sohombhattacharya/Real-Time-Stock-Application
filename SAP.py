@@ -69,7 +69,9 @@ def main():
                     
                     else:
                         print (ticker + " remains at: " + str(latestPrice[x]))
+        print ("")
         print ("Refreshing...")
+        print ("")
         time.sleep(refresh)
         
                     
