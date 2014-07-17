@@ -1,4 +1,4 @@
-import urllib.request
+import urllib2
 import datetime
 import time
 
@@ -17,28 +17,28 @@ def main():
         minutes = totalTime[3:5]
         
     
-        if (int(hour) < 9) or (int(hour) == 9 and int(minutes) < 30) or (int(hour) > 16) or (int(hour) == 16 and int(minutes) > 0):
-            print ("Stock Market is currently closed. Please come back between 9:30 AM and 4:00 PM")
-            return
+       ## if (int(hour) < 9) or (int(hour) == 9 and int(minutes) < 30) or (int(hour) > 16) or (int(hour) == 16 and int(minutes) > 0):
+         ##   print ("Stock Market is currently closed. Please come back between 9:30 AM and 4:00 PM")
+           ## return
     
         if numQuotes == 0:
             numQuotes = int(input("How many company quotes would you like to monitor?"))
             
         
-            for x in range(numQuotes):
-                quotes.append(input("Enter Quote #" + str(x + 1) + ":"))
+            for x in xrange(0, numQuotes):
+                quotes.append(raw_input("Enter Quote #" + str(x + 1) + ":"))
     
                 
     
-            for x in range(numQuotes):
+            for x in xrange(0, numQuotes):
                 latestPrice.append("blank")
         
             refresh = int(input("How long would you like to wait for the feed to refresh?"))
     
-        for x in range(numQuotes):
+        for x in xrange(0, numQuotes):
             ticker = quotes[x].lower()
             website = "http://finance.yahoo.com/q;_ylt=AugwQt0Hk_iaaowuO255_2uiuYdG;_ylu=X3oDMTBxdGVyNzJxBHNlYwNVSCAzIERlc2t0b3AgU2VhcmNoIDEx;_ylg=X3oDMTBsdWsyY2FpBGxhbmcDZW4tVVMEcHQDMgR0ZXN0Aw--;_ylv=3?s=" + ticker + "&uhb=uhb2&type=2button&fr=uh3_finance_vert_gs"
-            response = urllib.request.urlopen(website)
+            response = urllib2.urlopen(website)
             financeYahoo = ""
             while response.readline():
                 financeYahoo = financeYahoo + str(response.readline())
@@ -58,16 +58,19 @@ def main():
                 else:
                     if latestPrice[x] != stockPrice:
                         latest = float(stockPrice)
-                        previous = float(latest[x])
+                        previous = float(latestPrice[x])
                         
                         if latest>previous:
-                            print (ticker + " went up to: "+ latest)
+                            print (ticker + " went up to: "+ str(latest))
                     
                         else:
                             if latest<previous:
-                                print (ticker + " went down to: "+ latest)
-        print ("Waiting...")
-        time.sleep(refresh*60)
+                                print (ticker + " went down to: "+ str(latest))
+                    
+                    else:
+                        print (ticker + " remains at: " + str(latestPrice[x]))
+        print ("Refreshing...")
+        time.sleep(refresh)
         
                     
 if __name__ == '__main__':
